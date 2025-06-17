@@ -1,10 +1,18 @@
 import { BusinessProfile, LeadClassification, Message } from '@/types/lead';
 
-const GEMINI_API_KEY = 'AIzaSyCuyFxOb03_GaRz7X1v35E4av0HUckDLG0';
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
 export class GeminiService {
+  private validateApiKey(): void {
+    if (!GEMINI_API_KEY) {
+      throw new Error('REACT_APP_GEMINI_API_KEY is not set in environment variables');
+    }
+  }
+
   private async callGemini(prompt: string): Promise<string> {
+    this.validateApiKey();
+
     try {
       const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
         method: 'POST',
@@ -25,7 +33,7 @@ export class GeminiService {
       }
 
       const data = await response.json();
-      
+
       if (data.candidates && data.candidates[0] && data.candidates[0].content) {
         return data.candidates[0].content.parts[0].text;
       } else {
@@ -38,13 +46,13 @@ export class GeminiService {
   }
 
   private buildConversationPrompt(
-    messages: Message[], 
-    businessProfile: BusinessProfile, 
-    isFirstMessage: boolean = false
+      messages: Message[],
+      businessProfile: BusinessProfile,
+      isFirstMessage: boolean = false
   ): string {
     const conversationHistory = messages
-      .map(msg => `${msg.sender === 'user' ? 'Lead' : 'Agent'}: ${msg.content}`)
-      .join('\n');
+        .map(msg => `${msg.sender === 'user' ? 'Lead' : 'Agent'}: ${msg.content}`)
+        .join('\n');
 
     const systemPrompt = `You are ${businessProfile.agentName}, a ${businessProfile.responseStyle.toLowerCase()} ${businessProfile.industry} agent from ${businessProfile.businessName} located in ${businessProfile.location}.
 
@@ -75,29 +83,29 @@ Respond as ${businessProfile.agentName}:`;
   }
 
   async generateResponse(
-    messages: Message[], 
-    businessProfile: BusinessProfile
+      messages: Message[],
+      businessProfile: BusinessProfile
   ): Promise<string> {
     const isFirstMessage = messages.length === 0;
     const prompt = this.buildConversationPrompt(messages, businessProfile, isFirstMessage);
-    
+
     // Add a small delay to simulate more natural conversation
     await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-    
+
     return await this.callGemini(prompt);
   }
 
   async classifyLead(
-    messages: Message[], 
-    businessProfile: BusinessProfile
+      messages: Message[],
+      businessProfile: BusinessProfile
   ): Promise<LeadClassification> {
     if (messages.length < 4) {
       return 'ANALYZING';
     }
 
     const conversationText = messages
-      .map(msg => `${msg.sender}: ${msg.content}`)
-      .join('\n');
+        .map(msg => `${msg.sender}: ${msg.content}`)
+        .join('\n');
 
     const classificationPrompt = `Analyze this lead qualification conversation and classify the lead as HOT, COLD, or INVALID.
 
@@ -116,11 +124,11 @@ Respond with only one word: HOT, COLD, or INVALID`;
     try {
       const result = await this.callGemini(classificationPrompt);
       const classification = result.trim().toUpperCase();
-      
+
       if (['HOT', 'COLD', 'INVALID'].includes(classification)) {
         return classification as LeadClassification;
       }
-      
+
       return 'ANALYZING';
     } catch (error) {
       console.error('Error classifying lead:', error);

@@ -1,73 +1,74 @@
-# Welcome to your Lovable project
+# LeadBot AI
 
-## Project info
+A React-based AI-powered lead generation tool that helps find properties in any location using the Gemini API. The application provides real-time lead tracking and conversation metadata export capabilities.
 
-**URL**: https://lovable.dev/projects/1f03d7b4-78f3-4c1a-9737-1612e16d83de
+## Features
 
-## How can I edit this code?
+- **Property Search**: Find properties in any location using AI-powered search
+- **Real-time Lead Tracking**: Automatically categorizes leads as hot, cold, or invalid
+- **Conversation Export**: Download conversation metadata in JSON or CSV format
+- **Configurable Business Types**: Customize the application according to your business needs
+- **Modern UI**: Built with React, TypeScript, and Tailwind CSS
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- React
+- TypeScript
+- Tailwind CSS
+- Gemini API
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1f03d7b4-78f3-4c1a-9737-1612e16d83de) and start prompting.
+## Installation
 
-Changes made via Lovable will be committed automatically to this repo.
+1. Clone the repository:
+```bash
+git clone https://github.com/tamatar-23/leadbot.git
+cd leadbot
+```
 
-**Use your preferred IDE**
+2. Install dependencies:
+```bash
+npm install
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+3. Set up environment variables:
+   Create a `.env` file in the root directory and add your Gemini API key:
+```
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+4. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Usage
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. Configure your business type in the application settings
+2. Start searching for properties by entering location details
+3. Monitor lead status in real-time as conversations progress
+4. Export conversation data as needed in JSON or CSV format
 
-**Use GitHub Codespaces**
+## Lead Classification
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The application automatically tracks and classifies leads based on conversation analysis:
 
-## What technologies are used for this project?
+- **Hot Lead**: High potential prospects showing strong interest
+- **Cold Lead**: Lower engagement prospects requiring nurturing
+- **Invalid Lead**: Non-viable prospects or incomplete interactions
 
-This project is built with:
+## Export Features
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Download conversation metadata including:
+- Lead classification data
+- Conversation timestamps
+- Property search queries
+- Response analysis
+- Available in JSON and CSV formats
 
-## How can I deploy this project?
+## Repository
 
-Simply open [Lovable](https://lovable.dev/projects/1f03d7b4-78f3-4c1a-9737-1612e16d83de) and click on Share -> Publish.
+GitHub: https://github.com/tamatar-23/leadbot
 
-## Can I connect a custom domain to my Lovable project?
+## License
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+This project is licensed under the MIT License.
